@@ -199,39 +199,39 @@
 
     <!-- FORM INPUT INTERAKTIF -->
     <div class="form-container">
-        <h2>Formulir Pengaturan Resi & Barcode</h2>
+        <h2>Formulir Pengaturan Resi & Barcode (2 Produk)</h2>
         
         <div class="form-row">
             <div class="form-group">
                 <label>Pengirim:</label>
-                <input type="text" id="inputPengirim" value="SR FOOTWEAR (JB, CIBINONG) - (+62)89532662607">
+                <input type="text" id="inputPengirim" value="SRFOOTWEAR">
             </div>
             <div class="form-group">
                 <label>Penerima:</label>
-                <input type="text" id="inputPenerima" value="b** t**i - (+62)85*******26">
+                <input type="text" id="inputPenerima" value="s************5">
             </div>
         </div>
 
         <div class="form-group">
             <label>Alamat Lengkap Tujuan:</label>
-            <textarea id="inputAlamat" rows="2">mushola Nurul Huda sidasari kulon RT02RW02 Kubang kang kung, Kawunganten, Cilacap, Jawa Tengah 53253</textarea>
+            <textarea id="inputAlamat" rows="2">P******* j****** - (+62)851******93</textarea>
         </div>
 
         <div class="form-row">
             <div class="form-group">
                 <label>Berat & Tanggal (Ship):</label>
-                <input type="text" id="inputBeratShip" value="Weight : 0.300 KG | Ship : 21-07-2026">
+                <input type="text" id="inputBeratShip" value="Weight : 0.500 KG | Ship : 17-06-2026">
             </div>
             <div class="form-group">
                 <label>Nomor Barcode (Code 128):</label>
-                <input type="text" id="inputBarcode" value="JY1125262599">
+                <input type="text" id="inputBarcode" value="JY1234567890">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group">
                 <label>Order ID:</label>
-                <input type="text" id="inputOrderId" value="585133646217053456">
+                <input type="text" id="inputOrderId" value="7500790825908160263">
             </div>
             <div class="form-group">
                 <label>Sub Judul Barcode (Atas Barcode):</label>
@@ -240,25 +240,43 @@
         </div>
 
         <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
-        <h3 style="font-size: 15px; margin-top: 0; color: #333;">Detail Produk & Qty</h3>
-
+        <h3 style="font-size: 15px; margin-top: 0; color: #333;">Produk Baris ke-1</h3>
         <div class="form-group">
-            <label>Nama Produk:</label>
-            <input type="text" id="inputProdName" value="Sandal Baim Anak Laki Laki Karakter Jibbitz Roblox Sendal EVA Premium Anti Licin Empuk Ringan Cowok Kekinian">
+            <label>Nama Produk 1:</label>
+            <input type="text" id="inputProd1Name" value="Sandal baim roblox anak laki laki model terbaru kece viral">
         </div>
-
         <div class="form-row">
             <div class="form-group">
-                <label>SKU / Varian:</label>
-                <input type="text" id="inputProdSku" value="hitam, 34-35">
+                <label>SKU 1:</label>
+                <input type="text" id="inputProd1Sku" value="abu, 32-33">
             </div>
             <div class="form-group">
-                <label>Seller SKU:</label>
-                <input type="text" id="inputProdSellerSku" value="MACKER ROBLOX BAIM">
+                <label>Seller SKU 1:</label>
+                <input type="text" id="inputProd1SellerSku" value="069 roblox">
             </div>
-            <div class="form-group" style="max-width: 90px;">
-                <label>Qty:</label>
-                <input type="text" id="inputProdQty" value="1">
+            <div class="form-group" style="max-width: 80px;">
+                <label>Qty 1:</label>
+                <input type="text" id="inputProd1Qty" value="1">
+            </div>
+        </div>
+
+        <h3 style="font-size: 15px; margin-top: 15px; color: #333;">Produk Baris ke-2</h3>
+        <div class="form-group">
+            <label>Nama Produk 2:</label>
+            <input type="text" id="inputProd2Name" value="Sepatu Anak kece Model keren warna hitam usia 3-10 tahun">
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>SKU 2:</label>
+                <input type="text" id="inputProd2Sku" value="Hitam, 27-28">
+            </div>
+            <div class="form-group">
+                <label>Seller SKU 2:</label>
+                <input type="text" id="inputProd2SellerSku" value="sepatu">
+            </div>
+            <div class="form-group" style="max-width: 80px;">
+                <label>Qty 2:</label>
+                <input type="text" id="inputProd2Qty" value="1">
             </div>
         </div>
 
@@ -306,9 +324,9 @@
             <strong>Order Id :</strong> <span id="outOrderId1"></span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>Estimated Date:</strong>
         </div>
 
-        <!-- Detail Produk -->
+        <!-- Detail Produk (2 Baris) -->
         <div class="footer-items">
-            <div style="font-size: 11px; margin-bottom: 2px;">In transit by: 22/07/2026 23:59</div>
+            <div style="font-size: 11px; margin-bottom: 2px;">In transit by: 19/06/2026 23:59</div>
             <table class="item-table">
                 <thead>
                     <tr>
@@ -319,22 +337,30 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Baris 1 -->
                     <tr>
-                        <td id="outProdNameText"></td>
-                        <td id="outProdSkuText"></td>
-                        <td id="outProdSellerSkuText"></td>
-                        <td id="outProdQtyText"></td>
+                        <td id="outProd1NameText"></td>
+                        <td id="outProd1SkuText"></td>
+                        <td id="outProd1SellerSkuText"></td>
+                        <td id="outProd1QtyText"></td>
+                    </tr>
+                    <!-- Baris 2 -->
+                    <tr>
+                        <td id="outProd2NameText"></td>
+                        <td id="outProd2SkuText"></td>
+                        <td id="outProd2SellerSkuText"></td>
+                        <td id="outProd2QtyText"></td>
                     </tr>
                 </tbody>
             </table>
             <div style="text-align: right; font-weight: bold; margin-top: 4px; font-size: 11px;">
-                Qty Total: <span id="outQtyTotal">1</span>
+                Qty Total: <span id="outQtyTotal">2</span>
             </div>
         </div>
 
         <!-- Footer Marketplace -->
         <div class="brand-footer">
-            <span>tokopedia &nbsp; | &nbsp; Shop</span>
+            <span>TikTok Shop &nbsp; | &nbsp; Tokopedia</span>
             <span style="font-size: 10px;">Order ID: <span id="outOrderId2"></span></span>
         </div>
     </div>
@@ -356,13 +382,22 @@
             document.getElementById('outOrderId1').innerText = orderId;
             document.getElementById('outOrderId2').innerText = orderId;
 
-            // Ambil value dari form produk & qty
-            const qtyVal = document.getElementById('inputProdQty').value;
-            document.getElementById('outProdNameText').innerText = document.getElementById('inputProdName').value;
-            document.getElementById('outProdSkuText').innerText = document.getElementById('inputProdSku').value;
-            document.getElementById('outProdSellerSkuText').innerText = document.getElementById('inputProdSellerSku').value;
-            document.getElementById('outProdQtyText').innerText = qtyVal;
-            document.getElementById('outQtyTotal').innerText = qtyVal;
+            // Produk Baris 1
+            document.getElementById('outProd1NameText').innerText = document.getElementById('inputProd1Name').value;
+            document.getElementById('outProd1SkuText').innerText = document.getElementById('inputProd1Sku').value;
+            document.getElementById('outProd1SellerSkuText').innerText = document.getElementById('inputProd1SellerSku').value;
+            const q1 = parseInt(document.getElementById('inputProd1Qty').value) || 0;
+            document.getElementById('outProd1QtyText').innerText = q1;
+
+            // Produk Baris 2
+            document.getElementById('outProd2NameText').innerText = document.getElementById('inputProd2Name').value;
+            document.getElementById('outProd2SkuText').innerText = document.getElementById('inputProd2Sku').value;
+            document.getElementById('outProd2SellerSkuText').innerText = document.getElementById('inputProd2SellerSku').value;
+            const q2 = parseInt(document.getElementById('inputProd2Qty').value) || 0;
+            document.getElementById('outProd2QtyText').innerText = q2;
+
+            // Total Qty otomatis dihitung
+            document.getElementById('outQtyTotal').innerText = q1 + q2;
 
             // Generate Barcode menggunakan JsBarcode (Format Code 128)
             try {
