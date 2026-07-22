@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generator Resi Pengiriman & Barcode Code 128</title>
-    <!-- Library untuk generate Barcode Code 128 -->
+    <!-- Library Barcode Code 128 -->
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <!-- Library QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -101,19 +103,27 @@
             font-weight: bold;
         }
         .service-type {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: bold;
+            font-family: 'Times New Roman', Times, serif;
         }
-        .qr-placeholder {
-            width: 60px;
-            height: 60px;
+        /* Area QR Code */
+        .qr-box {
+            width: 65px;
+            height: 65px;
             border: 1px solid #000;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 9px;
-            text-align: center;
+            background: #fff;
+            padding: 2px;
+            box-sizing: border-box;
         }
+        .qr-box img {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
         .address-section {
             padding: 6px 0;
             border-bottom: 1px solid #000;
@@ -199,7 +209,7 @@
 
     <!-- FORM INPUT INTERAKTIF -->
     <div class="form-container">
-        <h2>Formulir Pengaturan Resi & Barcode (2 Produk)</h2>
+        <h2>Formulir Pengaturan Resi (Dengan QR Code & Barcode Otomatis)</h2>
         
         <div class="form-row">
             <div class="form-group">
@@ -223,7 +233,7 @@
                 <input type="text" id="inputBeratShip" value="Weight : 0.500 KG | Ship : 17-06-2026">
             </div>
             <div class="form-group">
-                <label>Nomor Barcode (Code 128):</label>
+                <label>Nomor Barcode / QR Data:</label>
                 <input type="text" id="inputBarcode" value="JY1234567890">
             </div>
         </div>
@@ -291,8 +301,9 @@
                 <div class="brand">J&T EXPRESS</div>
                 <div class="phone">📞 (021) 80661888</div>
             </div>
-           <div class="service-type" style="font-family: 'Times New Roman', Times, serif;">EZ</div>
-            <div class="qr-placeholder">QR Code</div>
+            <div class="service-type" style="font-family: 'Times New Roman', Times, serif;">EZ</div>
+            <!-- Kotak QR Code Otomatis -->
+            <div class="qr-box" id="qrcode"></div>
         </div>
 
         <!-- Alamat Pengiriman -->
@@ -337,14 +348,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Baris 1 -->
                     <tr>
                         <td id="outProd1NameText"></td>
                         <td id="outProd1SkuText"></td>
                         <td id="outProd1SellerSkuText"></td>
                         <td id="outProd1QtyText"></td>
                     </tr>
-                    <!-- Baris 2 -->
                     <tr>
                         <td id="outProd2NameText"></td>
                         <td id="outProd2SkuText"></td>
@@ -365,10 +374,18 @@
         </div>
     </div>
 
-    <!-- Script untuk Sinkronisasi Input ke Resi & Generate Barcode Code 128 -->
+    <!-- Script untuk Generate Barcode & QR Code Otomatis -->
     <script>
+        // Inisialisasi QR Code library
+        let qr = new QRCode(document.getElementById("qrcode"), {
+            width: 60,
+            height: 60,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.M
+        });
+
         function updateReceipt() {
-            // Ambil value dari form umum
             document.getElementById('outPengirim').innerText = document.getElementById('inputPengirim').value;
             document.getElementById('outPenerima').innerText = document.getElementById('inputPenerima').value;
             document.getElementById('outAlamat').innerText = document.getElementById('inputAlamat').value;
@@ -382,24 +399,25 @@
             document.getElementById('outOrderId1').innerText = orderId;
             document.getElementById('outOrderId2').innerText = orderId;
 
-            // Produk Baris 1
+            // Produk 1 & 2
             document.getElementById('outProd1NameText').innerText = document.getElementById('inputProd1Name').value;
             document.getElementById('outProd1SkuText').innerText = document.getElementById('inputProd1Sku').value;
             document.getElementById('outProd1SellerSkuText').innerText = document.getElementById('inputProd1SellerSku').value;
             const q1 = parseInt(document.getElementById('inputProd1Qty').value) || 0;
             document.getElementById('outProd1QtyText').innerText = q1;
 
-            // Produk Baris 2
             document.getElementById('outProd2NameText').innerText = document.getElementById('inputProd2Name').value;
             document.getElementById('outProd2SkuText').innerText = document.getElementById('inputProd2Sku').value;
             document.getElementById('outProd2SellerSkuText').innerText = document.getElementById('inputProd2SellerSku').value;
             const q2 = parseInt(document.getElementById('inputProd2Qty').value) || 0;
             document.getElementById('outProd2QtyText').innerText = q2;
 
-            // Total Qty otomatis dihitung
             document.getElementById('outQtyTotal').innerText = q1 + q2;
 
-            // Generate Barcode menggunakan JsBarcode (Format Code 128)
+            // Update QR Code secara otomatis sesuai teks nomor resi/barcode
+            qr.makeCode(barcodeVal);
+
+            // Generate Barcode Code 128
             try {
                 JsBarcode("#barcodeCanvas", barcodeVal, {
                     format: "CODE128",
@@ -413,10 +431,8 @@
             }
         }
 
-        // Jalankan fungsi saat halaman dimuat
         window.onload = updateReceipt;
 
-        // Tambahkan event listener agar resi berubah secara real-time saat diketik
         const inputs = document.querySelectorAll('.form-container input, .form-container textarea');
         inputs.forEach(input => {
             input.addEventListener('input', updateReceipt);
