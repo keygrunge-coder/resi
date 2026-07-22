@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Resi Pengiriman & Barcode Code 128</title>
+    <!-- Library untuk generate Barcode Code 128 -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        /* Panel Form Input (Tidak akan ikut tercetak) */
+        .form-container {
+            max-width: 700px;
+            background: #fff;
+            padding: 20px;
+            margin: 0 auto 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-container h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #555;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .btn-print {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-print:hover {
+            background-color: #d9363e;
+        }
+
+        /* Desain Resi Pengiriman (Mirip Label Marketplace) */
+        .receipt-container {
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            margin: 0 auto;
+            border: 2px solid #000;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 12px;
+            color: #000;
+        }
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5px;
+        }
+        .logo-area .brand {
+            font-size: 20px;
+            font-weight: bold;
+            font-style: italic;
+            color: #e60012;
+        }
+        .logo-area .phone {
+            font-size: 11px;
+            color: #e60012;
+            font-weight: bold;
+        }
+        .service-type {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .qr-placeholder {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            text-align: center;
+        }
+        .address-section {
+            padding: 6px 0;
+            border-bottom: 1px solid #000;
+        }
+        .address-row {
+            margin-bottom: 4px;
+        }
+        .recipient-name {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .recipient-address {
+            font-size: 13px;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #000;
+            padding: 4px 0;
+            font-weight: bold;
+        }
+        .cod-section {
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            border-bottom: 2px solid #000;
+            padding: 4px 0;
+            background: #f8f8f8;
+        }
+        .barcode-section {
+            text-align: center;
+            border-bottom: 1px solid #000;
+            padding: 6px 0;
+        }
+        .barcode-section .sub-title {
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .barcode-section .tracking-number {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .footer-items {
+            padding-top: 6px;
+        }
+        .item-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4px;
+            font-size: 11px;
+        }
+        .item-table th, .item-table td {
+            border-bottom: 1px solid #ccc;
+            padding: 4px;
+            text-align: left;
+        }
+        .brand-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #000;
+            margin-top: 6px;
+            padding-top: 4px;
+            font-weight: bold;
+        }
+
+        /* Pengaturan Cetak Print */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .form-container {
+                display: none; /* Sembunyikan form saat dicetak */
+            }
+            .receipt-container {
+                border: 2px solid #000;
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FORM INPUT INTERAKTIF -->
+    <div class="form-container">
+        <h2>Formulir Pengaturan Resi & Barcode</h2>
+        <div class="form-group">
+            <label>Pengirim:</label>
+            <input type="text" id="inputPengirim" value="SR FOOTWEAR (JB, CIBINONG) - (+62)89532662607">
+        </div>
+        <div class="form-group">
+            <label>Penerima:</label>
+            <input type="text" id="inputPenerima" value="b** t**i - (+62)85*******26">
+        </div>
+        <div class="form-group">
+            <label>Alamat Lengkap Tujuan:</label>
+            <textarea id="inputAlamat" rows="2">mushola Nurul Huda sidasari kulon RT02RW02 Kubang kang kung, Kawunganten, Cilacap, Jawa Tengah 53253</textarea>
+        </div>
+        <div class="form-group">
+            <label>Berat & Tanggal (Ship):</label>
+            <input type="text" id="inputBeratShip" value="Weight : 0.300 KG | Ship : 21-07-2026">
+        </div>
+        <div class="form-group">
+            <label>Nomor Barcode (Code 128):</label>
+            <input type="text" id="inputBarcode" value="JY1125262599">
+        </div>
+        <div class="form-group">
+            <label>Order ID:</label>
+            <input type="text" id="inputOrderId" value="585133646217053456">
+        </div>
+        <div class="form-group">
+            <label>Nama Produk / Varian / Qty:</label>
+            <input type="text" id="inputProduk" value="Sandal Baim Anak Laki Laki - Hitam, 34-35 | MACKER ROBLOX BAIM | Qty: 1">
+        </div>
+        <button class="btn-print" onclick="window.print()">Cetak / Print Resi</button>
+    </div>
+
+    <!-- STRUKTUR RESI LABEL -->
+    <div class="receipt-container">
+        <!-- Header -->
+        <div class="header-section">
+            <div class="logo-area">
+                <div class="brand">J&T EXPRESS</div>
+                <div class="phone">📞 (021) 80661888</div>
+            </div>
+            <div class="service-type">EZ</div>
+            <div class="qr-placeholder">QR Code</div>
+        </div>
+
+        <!-- Alamat Pengiriman -->
+        <div class="address-section">
+            <div class="address-row"><strong>Pengirim :</strong> <span id="outPengirim">SR FOOTWEAR...</span></div>
+            <div class="address-row"><strong>Penerima :</strong> <span id="outPenerima">b** t**i</span></div>
+            <div class="recipient-address" id="outAlamat" style="margin-top: 4px;">
+                mushola Nurul Huda sidasari kulon RT02RW02 Kubang kang kung, Kawunganten, Cilacap, Jawa Tengah 53253
+            </div>
+        </div>
+
+        <!-- Berat & Tanggal -->
+        <div class="meta-info">
+            <div id="outBeratShip">Weight : 0.300 KG &nbsp;&nbsp;|&nbsp;&nbsp; Ship : 21-07-2026</div>
+        </div>
+
+        <!-- Label COD -->
+        <div class="cod-section">COD</div>
+
+        <!-- Barcode Code 128 Section -->
+        <div class="barcode-section">
+            <div class="sub-title">460-CLP06-06</div>
+            <!-- Elemen Canvas tempat Barcode Code 128 digenerate secara otomatis -->
+            <div>
+                <canvas id="barcodeCanvas"></canvas>
+            </div>
+            <div class="tracking-number" id="outBarcodeText">JY1125262599</div>
+        </div>
+
+        <!-- Order ID Atas -->
+        <div style="padding: 4px 0; border-bottom: 1px solid #000; font-size: 11px;">
+            <strong>Order Id :</strong> <span id="outOrderId1">585133646217053456</span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>Estimated Date:</strong>
+        </div>
+
+        <!-- Detail Produk -->
+        <div class="footer-items">
+            <div style="font-size: 11px; margin-bottom: 2px;">In transit by: 22/07/2026 23:59</div>
+            <table class="item-table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>SKU</th>
+                        <th>Seller SKU</th>
+                        <th>Qty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="outProdName">Sandal Baim Anak Laki Laki Karakter Jibbitz Roblox Sendal EVA Premium Anti Licin Empuk Ringan Cowok Kekinian</td>
+                        <td id="outProdSku">hitam, 34-35</td>
+                        <td id="outProdSellerSku">MACKER ROBLOX BAIM</td>
+                        <td id="outProdQty">1</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="text-align: right; font-weight: bold; margin-top: 4px; font-size: 11px;">
+                Qty Total: 1
+            </div>
+        </div>
+
+        <!-- Footer Marketplace -->
+        <div class="brand-footer">
+            <span>tokopedia &nbsp; | &nbsp; Shop</span>
+            <span style="font-size: 10px;">Order ID: <span id="outOrderId2">585133646217053456</span></span>
+        </div>
+    </div>
+
+    <!-- Script untuk Sinkronisasi Input ke Resi & Generate Barcode Code 128 -->
+    <script>
+        function updateReceipt() {
+            // Ambil value dari form
+            const pengirim = document.getElementById('inputPengirim').value;
+            const penerima = document.getElementById('inputPenerima').value;
+            const alamat = document.getElementById('inputAlamat').value;
+            const beratShip = document.getElementById('inputBeratShip').value;
+            const barcodeVal = document.getElementById('inputBarcode').value;
+            const orderId = document.getElementById('inputOrderId').value;
+            const produk = document.getElementById('inputProduk').value;
+
+            // Masukkan ke elemen resi
+            document.getElementById('outPengirim').innerText = pengirim;
+            document.getElementById('outPenerima').innerText = penerima;
+            document.getElementById('outAlamat').innerText = alamat;
+            document.getElementById('outBeratShip').innerText = beratShip;
+            document.getElementById('outBarcodeText').innerText = barcodeVal;
+            document.getElementById('outOrderId1').innerText = orderId;
+            document.getElementById('outOrderId2').innerText = orderId;
+            document.getElementById('outProdName').innerText = produk;
+
+            // Generate Barcode menggunakan JsBarcode (Format Code 128)
+            try {
+                JsBarcode("#barcodeCanvas", barcodeVal, {
+                    format: "CODE128",
+                    lineColor: "#000",
+                    width: 2,
+                    height: 50,
+                    displayValue: false // Teks dimatikan di canvas karena ditampilkan manual di bawahnya agar mirip aslinya
+                });
+            } catch (e) {
+                console.error("Format barcode tidak valid", e);
+            }
+        }
+
+        // Jalankan fungsi saat halaman dimuat
+        window.onload = updateReceipt;
+
+        // Tambahkan event listener agar resi berubah secara real-time saat diketik
+        const inputs = document.querySelectorAll('.form-container input, .form-container textarea');
+        inputs.forEach(input => {
+            input.addEventListener('input', updateReceipt);
+        });
+    </script>
+
+</body>
+</html>
