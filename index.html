@@ -32,6 +32,13 @@
         .form-group {
             margin-bottom: 12px;
         }
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
         .form-group label {
             display: block;
             font-weight: bold;
@@ -114,10 +121,6 @@
         .address-row {
             margin-bottom: 4px;
         }
-        .recipient-name {
-            font-size: 14px;
-            font-weight: bold;
-        }
         .recipient-address {
             font-size: 13px;
             font-weight: bold;
@@ -197,34 +200,68 @@
     <!-- FORM INPUT INTERAKTIF -->
     <div class="form-container">
         <h2>Formulir Pengaturan Resi & Barcode</h2>
-        <div class="form-group">
-            <label>Pengirim:</label>
-            <input type="text" id="inputPengirim" value="SR FOOTWEAR (JB, CIBINONG) - (+62)89532662607">
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>Pengirim:</label>
+                <input type="text" id="inputPengirim" value="SR FOOTWEAR (JB, CIBINONG) - (+62)89532662607">
+            </div>
+            <div class="form-group">
+                <label>Penerima:</label>
+                <input type="text" id="inputPenerima" value="b** t**i - (+62)85*******26">
+            </div>
         </div>
-        <div class="form-group">
-            <label>Penerima:</label>
-            <input type="text" id="inputPenerima" value="b** t**i - (+62)85*******26">
-        </div>
+
         <div class="form-group">
             <label>Alamat Lengkap Tujuan:</label>
             <textarea id="inputAlamat" rows="2">mushola Nurul Huda sidasari kulon RT02RW02 Kubang kang kung, Kawunganten, Cilacap, Jawa Tengah 53253</textarea>
         </div>
-        <div class="form-group">
-            <label>Berat & Tanggal (Ship):</label>
-            <input type="text" id="inputBeratShip" value="Weight : 0.300 KG | Ship : 21-07-2026">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Berat & Tanggal (Ship):</label>
+                <input type="text" id="inputBeratShip" value="Weight : 0.300 KG | Ship : 21-07-2026">
+            </div>
+            <div class="form-group">
+                <label>Nomor Barcode (Code 128):</label>
+                <input type="text" id="inputBarcode" value="JY1125262599">
+            </div>
         </div>
-        <div class="form-group">
-            <label>Nomor Barcode (Code 128):</label>
-            <input type="text" id="inputBarcode" value="JY1125262599">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Order ID:</label>
+                <input type="text" id="inputOrderId" value="585133646217053456">
+            </div>
+            <div class="form-group">
+                <label>Sub Judul Barcode (Atas Barcode):</label>
+                <input type="text" id="inputSubBarcode" value="460-CLP06-06">
+            </div>
         </div>
+
+        <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
+        <h3 style="font-size: 15px; margin-top: 0; color: #333;">Detail Produk & Qty</h3>
+
         <div class="form-group">
-            <label>Order ID:</label>
-            <input type="text" id="inputOrderId" value="585133646217053456">
+            <label>Nama Produk:</label>
+            <input type="text" id="inputProdName" value="Sandal Baim Anak Laki Laki Karakter Jibbitz Roblox Sendal EVA Premium Anti Licin Empuk Ringan Cowok Kekinian">
         </div>
-        <div class="form-group">
-            <label>Nama Produk / Varian / Qty:</label>
-            <input type="text" id="inputProduk" value="Sandal Baim Anak Laki Laki - Hitam, 34-35 | MACKER ROBLOX BAIM | Qty: 1">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>SKU / Varian:</label>
+                <input type="text" id="inputProdSku" value="hitam, 34-35">
+            </div>
+            <div class="form-group">
+                <label>Seller SKU:</label>
+                <input type="text" id="inputProdSellerSku" value="MACKER ROBLOX BAIM">
+            </div>
+            <div class="form-group" style="max-width: 90px;">
+                <label>Qty:</label>
+                <input type="text" id="inputProdQty" value="1">
+            </div>
         </div>
+
         <button class="btn-print" onclick="window.print()">Cetak / Print Resi</button>
     </div>
 
@@ -242,16 +279,14 @@
 
         <!-- Alamat Pengiriman -->
         <div class="address-section">
-            <div class="address-row"><strong>Pengirim :</strong> <span id="outPengirim">SR FOOTWEAR...</span></div>
-            <div class="address-row"><strong>Penerima :</strong> <span id="outPenerima">b** t**i</span></div>
-            <div class="recipient-address" id="outAlamat" style="margin-top: 4px;">
-                mushola Nurul Huda sidasari kulon RT02RW02 Kubang kang kung, Kawunganten, Cilacap, Jawa Tengah 53253
-            </div>
+            <div class="address-row"><strong>Pengirim :</strong> <span id="outPengirim"></span></div>
+            <div class="address-row"><strong>Penerima :</strong> <span id="outPenerima"></span></div>
+            <div class="recipient-address" id="outAlamat" style="margin-top: 4px;"></div>
         </div>
 
         <!-- Berat & Tanggal -->
         <div class="meta-info">
-            <div id="outBeratShip">Weight : 0.300 KG &nbsp;&nbsp;|&nbsp;&nbsp; Ship : 21-07-2026</div>
+            <div id="outBeratShip"></div>
         </div>
 
         <!-- Label COD -->
@@ -259,17 +294,16 @@
 
         <!-- Barcode Code 128 Section -->
         <div class="barcode-section">
-            <div class="sub-title">460-CLP06-06</div>
-            <!-- Elemen Canvas tempat Barcode Code 128 digenerate secara otomatis -->
+            <div class="sub-title" id="outSubBarcode">460-CLP06-06</div>
             <div>
                 <canvas id="barcodeCanvas"></canvas>
             </div>
-            <div class="tracking-number" id="outBarcodeText">JY1125262599</div>
+            <div class="tracking-number" id="outBarcodeText"></div>
         </div>
 
         <!-- Order ID Atas -->
         <div style="padding: 4px 0; border-bottom: 1px solid #000; font-size: 11px;">
-            <strong>Order Id :</strong> <span id="outOrderId1">585133646217053456</span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>Estimated Date:</strong>
+            <strong>Order Id :</strong> <span id="outOrderId1"></span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>Estimated Date:</strong>
         </div>
 
         <!-- Detail Produk -->
@@ -286,46 +320,49 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td id="outProdName">Sandal Baim Anak Laki Laki Karakter Jibbitz Roblox Sendal EVA Premium Anti Licin Empuk Ringan Cowok Kekinian</td>
-                        <td id="outProdSku">hitam, 34-35</td>
-                        <td id="outProdSellerSku">MACKER ROBLOX BAIM</td>
-                        <td id="outProdQty">1</td>
+                        <td id="outProdNameText"></td>
+                        <td id="outProdSkuText"></td>
+                        <td id="outProdSellerSkuText"></td>
+                        <td id="outProdQtyText"></td>
                     </tr>
                 </tbody>
             </table>
             <div style="text-align: right; font-weight: bold; margin-top: 4px; font-size: 11px;">
-                Qty Total: 1
+                Qty Total: <span id="outQtyTotal">1</span>
             </div>
         </div>
 
         <!-- Footer Marketplace -->
         <div class="brand-footer">
             <span>tokopedia &nbsp; | &nbsp; Shop</span>
-            <span style="font-size: 10px;">Order ID: <span id="outOrderId2">585133646217053456</span></span>
+            <span style="font-size: 10px;">Order ID: <span id="outOrderId2"></span></span>
         </div>
     </div>
 
     <!-- Script untuk Sinkronisasi Input ke Resi & Generate Barcode Code 128 -->
     <script>
         function updateReceipt() {
-            // Ambil value dari form
-            const pengirim = document.getElementById('inputPengirim').value;
-            const penerima = document.getElementById('inputPenerima').value;
-            const alamat = document.getElementById('inputAlamat').value;
-            const beratShip = document.getElementById('inputBeratShip').value;
+            // Ambil value dari form umum
+            document.getElementById('outPengirim').innerText = document.getElementById('inputPengirim').value;
+            document.getElementById('outPenerima').innerText = document.getElementById('inputPenerima').value;
+            document.getElementById('outAlamat').innerText = document.getElementById('inputAlamat').value;
+            document.getElementById('outBeratShip').innerText = document.getElementById('inputBeratShip').value;
+            document.getElementById('outSubBarcode').innerText = document.getElementById('inputSubBarcode').value;
+            
             const barcodeVal = document.getElementById('inputBarcode').value;
-            const orderId = document.getElementById('inputOrderId').value;
-            const produk = document.getElementById('inputProduk').value;
-
-            // Masukkan ke elemen resi
-            document.getElementById('outPengirim').innerText = pengirim;
-            document.getElementById('outPenerima').innerText = penerima;
-            document.getElementById('outAlamat').innerText = alamat;
-            document.getElementById('outBeratShip').innerText = beratShip;
             document.getElementById('outBarcodeText').innerText = barcodeVal;
+
+            const orderId = document.getElementById('inputOrderId').value;
             document.getElementById('outOrderId1').innerText = orderId;
             document.getElementById('outOrderId2').innerText = orderId;
-            document.getElementById('outProdName').innerText = produk;
+
+            // Ambil value dari form produk & qty
+            const qtyVal = document.getElementById('inputProdQty').value;
+            document.getElementById('outProdNameText').innerText = document.getElementById('inputProdName').value;
+            document.getElementById('outProdSkuText').innerText = document.getElementById('inputProdSku').value;
+            document.getElementById('outProdSellerSkuText').innerText = document.getElementById('inputProdSellerSku').value;
+            document.getElementById('outProdQtyText').innerText = qtyVal;
+            document.getElementById('outQtyTotal').innerText = qtyVal;
 
             // Generate Barcode menggunakan JsBarcode (Format Code 128)
             try {
@@ -334,7 +371,7 @@
                     lineColor: "#000",
                     width: 2,
                     height: 50,
-                    displayValue: false // Teks dimatikan di canvas karena ditampilkan manual di bawahnya agar mirip aslinya
+                    displayValue: false 
                 });
             } catch (e) {
                 console.error("Format barcode tidak valid", e);
